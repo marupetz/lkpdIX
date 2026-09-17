@@ -2,7 +2,7 @@
   'use strict';
 
   // Tempel URL Web App Google Apps Script Anda yang berakhiran /exec.
-  const GOOGLE_SCRIPT_URL = "TEMPEL_URL_WEB_APP_GOOGLE_APPS_SCRIPT_DI_SINI";
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyywJmv3HYrHj-aT4Rl01RWCiuv1xeXuo-eKStW-8p_p08HfIDgdzSFnr9iCRzu5cAbZw/exec";
 
   let xp = 0;
   const done = {};
