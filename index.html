@@ -32,7 +32,11 @@
 
 <section class="page" id="p9"><div class="card"><span class="tag">MISSION 5 • REFLEKSI</span><h2>🧠 Pause & Reflect</h2><div class="grid"><div class="field"><label>Konsep yang paling dipahami</label><textarea></textarea></div><div class="field"><label>Hal baru yang dipelajari</label><textarea></textarea></div><div class="field"><label>Bagian paling menantang</label><textarea></textarea></div><div class="field"><label>Manfaat dalam kehidupan sehari-hari</label><textarea></textarea></div></div></div><div class="card"><h3>Tingkat Pemahaman</h3><div class="options"><button class="opt" onclick="under('😕 Belum paham',this)">😕 Belum paham</button><button class="opt" onclick="under('🙂 Mulai paham',this)">🙂 Mulai paham</button><button class="opt" onclick="under('😀 Paham',this)">😀 Paham</button><button class="opt" onclick="under('🤩 Sangat paham',this)">🤩 Sangat paham</button></div></div><div class="nav"><button class="btn ghost" onclick="go(8)">←</button><button class="btn primary" onclick="complete()">🎉 Selesaikan Misi</button></div></section>
 
-<section class="page" id="p10"><div class="card complete"><div class="trophy">🏆</div><h1>MISSION COMPLETE!</h1><p>Selamat, <b id="rn">Peserta didik</b>! Kamu telah menyelesaikan misi.</p><div class="grid"><div class="card"><b>Total XP</b><h2 id="rx">0 XP</h2></div><div class="card"><b>Badge</b><h2>🥇 Informatika Explorer</h2></div><div class="card"><b>Pemahaman</b><h2 id="ru">-</h2></div></div><button class="btn primary" onclick="go(1)">🔄 Ulangi</button></div></section>
+<section class="page" id="p10"><div class="card complete"><div class="trophy">🏆</div><h1>MISSION COMPLETE!</h1><p>Selamat, <b id="rn">Peserta didik</b>! Kamu telah menyelesaikan misi.</p><div class="grid"><div class="card"><b>Total XP</b><h2 id="rx">0 XP</h2></div><div class="card"><b>Badge</b><h2>🥇 Informatika Explorer</h2></div><div class="card"><b>Pemahaman</b><h2 id="ru">-</h2></div></div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px">
+<button class="btn primary" id="sendBtn" onclick="sendResult()">📤 KIRIM HASIL KE GURU</button>
+<button class="btn ghost" onclick="go(1)">🔄 Ulangi</button>
+</div>
+<div id="sendStatus" class="fb" style="margin-top:15px"></div></div></section>
 </div>
 
 
@@ -66,18 +70,51 @@ function collectAnswers(){
  const areas=[...document.querySelectorAll('textarea')].map(x=>x.value.trim());
  return {aktivitas:done,analisis:areas.slice(0,4),project:areas.slice(4,9),refleksi:areas.slice(9,13),pemahaman:u};
 }
-function saveToGoogle(data){
- if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("TEMPEL_URL")) return;
- fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)}).catch(()=>{});
+let finalData=null;
+let alreadySent=false;
+function buildResult(){
+ const nama=document.getElementById('nama')?.value.trim()||'Peserta didik';
+ const kelas=document.getElementById('kelas')?.value||'';
+ const nilai=calculateScore();
+ return {action:"submit",nama:nama,kelas:kelas,kelompok:"",tanggal:"",xp:xp,nilai:nilai,pemahaman:u,selesai:new Date().toISOString(),jawaban:JSON.stringify(collectAnswers())};
+}
+function sendResult(){
+ const status=document.getElementById('sendStatus');
+ const btn=document.getElementById('sendBtn');
+ if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("TEMPEL_URL")){
+   status.className='fb bad';
+   status.textContent='⚠️ URL Google Apps Script belum dipasang. Tempel URL /exec pada GOOGLE_SCRIPT_URL terlebih dahulu.';
+   return;
+ }
+ if(alreadySent){
+   status.className='fb good';
+   status.textContent='✅ Hasil sudah dikirim ke Google Sheets.';
+   return;
+ }
+ finalData=finalData||buildResult();
+ btn.disabled=true;
+ btn.textContent='⏳ Mengirim...';
+ status.className='fb good';
+ status.textContent='⏳ Mengirim hasil ke Google Sheets...';
+ fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(finalData)})
+   .then(()=>{
+      alreadySent=true;
+      btn.textContent='✅ HASIL TERKIRIM';
+      status.textContent='✅ Hasil berhasil dikirim. Guru dapat melihatnya di Google Sheets.';
+   })
+   .catch(()=>{
+      btn.disabled=false;
+      btn.textContent='📤 KIRIM HASIL KE GURU';
+      status.className='fb bad';
+      status.textContent='❌ Pengiriman gagal. Periksa koneksi internet dan URL Google Apps Script.';
+   });
 }
 function complete(){
- const inputs=document.querySelectorAll('#p2 input');
- const nilai=calculateScore();
- const data={action:"submit",nama:inputs[0]?.value||'Peserta didik',kelas:document.getElementById('kelas')?.value||'',kelompok:document.getElementById('kelompok')?.value||'',tanggal:inputs[2]?.value||'',xp:xp,nilai:nilai,pemahaman:u,selesai:new Date().toISOString(),jawaban:JSON.stringify(collectAnswers())};
- document.getElementById('rn').textContent=data.nama;
+ finalData=buildResult();
+ document.getElementById('rn').textContent=finalData.nama;
  document.getElementById('rx').textContent=xp+' XP';
  document.getElementById('ru').textContent=u;
- saveToGoogle(data); go(10);
+ go(10);
 }
 </script>
 </body>
