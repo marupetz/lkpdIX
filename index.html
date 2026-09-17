@@ -11,21 +11,15 @@
 .chartbox{height:240px;display:flex;align-items:end;gap:8px;padding:18px 8px 28px;border-bottom:1px solid #cbd5e1;overflow-x:auto}
 .baritem{min-width:38px;text-align:center;font-size:11px}.barcol{height:150px;display:flex;align-items:end;justify-content:center}.barcol i{display:block;width:28px;border-radius:7px 7px 0 0;background:linear-gradient(#2563eb,#7c3aed);min-height:3px}.baritem small{display:block;white-space:nowrap;margin-top:6px}
 .status-ok{color:#166534}.status-no{color:#991b1b}
+.field select {  width: 100%;  padding: 12px 14px;  border: 2px solid #e5e7eb;  border-radius: 12px;  background: #fff;  font-size: 15px;  color: #1f2937;  outline: none;  cursor: pointer;  transition: all 0.2s ease;}
+.field select:focus {  border-color: #6366f1;  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);}
 </style></head><body><div class="app">
 <div class="top"><div class="brand"><span class="logo">💻 INFORMATIKA IX</span><span class="xp">⭐ <b id="xp">0</b> XP</span></div><div class="bar"><i id="pb"></i></div></div>
 
 <section class="page on" id="p1"><div class="hero"><span class="tag">LKPD INTERAKTIF • KURIKULUM MERDEKA</span><h1>MISSION:<br>PATTERN & LOGIC</h1><p>Berpikir Komputasional — Pengenalan Pola dan Operasi Logika Boolean. <b>LEARN → EXPLORE → THINK → SOLVE → REFLECT</b></p><button class="btn ghost" onclick="go(2)">🚀 MULAI MISI</button><div class="bot">🤖</div><p style="position:absolute;bottom:15px;left:38px;font-size:13px;opacity:.85">Mode kelas: hasil siswa dapat dikirim ke Google Sheets</p></div></section>
 
 <section class="page" id="p2"><div class="card"><span class="tag">01 • PERSIAPAN</span><h2>Siapkan Identitasmu</h2><div class="grid"><div class="field"><label>Nama</label><input id="nama" placeholder="Nama lengkap"></div><div class="field">
-  <label>Kelas</label>
-  <select id="kelas" required>
-    <option value="" selected disabled>-- Pilih Kelas --</option>
-    <option value="IX Jendral Sudirman">IX Jendral Sudirman</option>
-    <option value="IX RA Kartini">IX RA Kartini</option>
-    <option value="IX Ki Hajar Dewantara">IX Ki Hajar Dewantara</option>
-    <option value="IX Pangeran Diponegoro">IX Pangeran Diponegoro</option>
-  </select>
-</div></div></div></div><div class="card"><b>MISSION PROGRESS</b><div class="steps"><span class="step">1 Persiapan</span><span class="step">2 Eksplorasi</span><span class="step">3 Tantangan</span><span class="step">4 Analisis</span><span class="step">5 Refleksi</span></div></div><div class="nav"><button class="btn ghost" onclick="go(1)">← Kembali</button><button class="btn primary" onclick="go(3)">Lanjut →</button></div></section>
+  <label>Kelas</label>  <select id="kelas" required>    <option value="" selected disabled>-- Pilih Kelas --</option>    <option value="IX Jendral Sudirman">IX Jendral Sudirman</option>    <option value="IX RA Kartini">IX RA Kartini</option>    <option value="IX Ki Hajar Dewantara">IX Ki Hajar Dewantara</option>    <option value="IX Pangeran Diponegoro">IX Pangeran Diponegoro</option>  </select></div></div></div></div><div class="card"><b>MISSION PROGRESS</b><div class="steps"><span class="step">1 Persiapan</span><span class="step">2 Eksplorasi</span><span class="step">3 Tantangan</span><span class="step">4 Analisis</span><span class="step">5 Refleksi</span></div></div><div class="nav"><button class="btn ghost" onclick="go(1)">← Kembali</button><button class="btn primary" onclick="go(3)">Lanjut →</button></div></section>
 
 <section class="page" id="p3"><div class="card"><span class="tag">02 • TARGET MISI</span><h2>Tujuan Pembelajaran</h2><div class="grid"><div class="obj">🧠 Menjelaskan pengenalan pola dan Boolean.</div><div class="obj">🔍 Mengidentifikasi pola dari data.</div><div class="obj">⚙️ Menerapkan AND, OR, NOT, XOR.</div><div class="obj">🎯 Menyelesaikan masalah secara logis.</div><div class="obj">💡 Menjelaskan alasan dan strategi.</div></div></div><div class="card"><span class="tag">WARM-UP</span><h2>🔍 Amati Polanya!</h2><p>2 → 4 → 6 → 8 → ?</p><div class="options"><button class="opt" onclick="warm(10,this)">10</button><button class="opt" onclick="warm(11,this)">11</button><button class="opt" onclick="warm(12,this)">12</button></div><div id="wf" class="fb"></div></div><div class="nav"><button class="btn ghost" onclick="go(2)">←</button><button class="btn primary" onclick="go(4)">Mission 1 →</button></div></section>
 
